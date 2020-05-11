@@ -25,17 +25,18 @@ if ($_POST['login']) {
     } else {
         $search = $connection->query("SELECT * FROM login WHERE email = '$email'");
         $search = $search->fetch();
-        if ($search) {
+        if ($search['validate']) {
             echo 'Вы уже зарегестрированы';
         } else {
-            echo 'Подтвердите почту';
+            echo 'ВЫ еще не подтвердили почту';
         }
     }
 }
 
 if ($_GET['auth']) {
     $auth = $_GET['auth'];
-    $connection->query("UPDATE login SET  timeEnd = current_timestamp WHERE auth = '$auth'");
+    $connection->query("UPDATE login SET  validate = '1', timeEnd = current_timestamp WHERE auth = '$auth'");
+    echo 'Ваша почта подтверждена';
 }
 
 ?>
